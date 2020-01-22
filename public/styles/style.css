@@ -1,0 +1,19 @@
+body {
+    background-color:aliceblue;
+    border-color: black;
+    border: 2 px;
+}
+table {
+    border: 2 px;
+    border-color: black;
+    align-self: center;
+    background-color: burlywood;
+}
+td {
+    border: 6 px solid black;
+    padding: 3px;
+    text-align: center;
+}
+a {
+    text-decoration: underline;
+}

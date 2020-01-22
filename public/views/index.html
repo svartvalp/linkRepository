@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Table</title>
+    <link rel="stylesheet" href="../styles/style.css" />
+    <script type="text/javascript">
+    async function fonload() {
+        let response = await fetch("http://localhost:8080/links")
+        let data = await response.json()
+        window.data = data
+        fillTable(data)
+    }
+
+    function fillTable(data) {    
+        let table = document.getElementById("table")
+        while(table.firstChild) {
+            table.removeChild(table.firstChild)
+        }
+        for(let i = 0; i < data.length; i++) {
+            let tr = document.createElement("tr")
+            tr.dataset.id = data[i]._id
+            let td1 = document.createElement("td")
+            td1.innerText = data[i]._name
+            tr.appendChild(td1)
+            let td2 = document.createElement("td")
+            td2.innerText = data[i]._link
+            tr.appendChild(td2)
+            let td3 = document.createElement("td")
+            td3.innerText = data[i]._pLanguage
+            tr.appendChild(td3)
+            let del = document.createElement("a")
+            del.innerText = "Удалить"
+            del.onclick = deleteClick;
+            tr.appendChild(del)
+            table.appendChild(tr)
+        }
+    }
+    async function deleteClick() {
+        let id = this.parentNode.dataset.id
+        let link
+        for(let i = 0; i < window.data.length; i++) {
+            if (window.data[i]._id == id) {
+                link = {
+                    _id : id,
+                    _name : window.data[i]._name,
+                    _link : window.data[i]._link,
+                    _pLanguage : window.data[i]._pLanguage
+                }
+                window.data.splice(i, 1)
+            }
+        }
+        await fetch("http://localhost:8080/link/delete", {
+            method : "DELETE",
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body : JSON.stringify(link)
+        })
+        this.parentNode.parentNode.removeChild(this.parentNode)
+    }
+    function search() {
+        text = document.getElementById("search").value
+        if(text == "") {
+            fillTable(window.data)
+        }
+        let data = []
+        for(let i = 0; i < window.data.length; i++) {
+            if(window.data[i]._name.startsWith(text)) {
+                data.push(window.data[i])
+            }
+        }
+        fillTable(data)
+    }
+    </script>
+</head>
+<body onload="fonload()" id="body">
+    <button>Добавить</button>
+        <input id = "search"/>
+        <button onclick="search()">Найти</button>
+    <table id="table">
+        <tr>
+            <td>
+                fff
+            </td>
+            <td>
+                fasaw
+            </td>
+        </tr>    
+    </table>
+</body>
+</html>
