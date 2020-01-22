@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+    function add_click() {
+        name = document.getElementById("name").value
+        link = document.getElementById("link").value
+        pLanguage = document.getElementById("pLanguage").value
+        if (name && link && pLanguage) {
+            data = {
+                    _id : 1,
+                    _name : name,
+                    _link : link,
+                    _pLanguage : pLanguage
+                }
+            fetch("http://localhost:8080/link/post", {
+            method : "POST",
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body : JSON.stringify(data)
+        })
+        } else {
+            alert("Вы не заполнили все поля!")
+        }
+    }
+    </script>
+</head>
+<body>
+<label>Название</label>
+<input id="name">
+<label>Ссылка</label>
+<input id="link">
+<label>Язык</label>
+<input id="pLanguage">
+<button onclick="add_click()">Добавить</button>
+</body>
+</html>

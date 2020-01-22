@@ -12,6 +12,10 @@ app.get("/", (req, res) => {
     res.sendFile(__dirname + "/public/views/index.html")
 })
 
+app.get("/insert", (req, res) => {
+    res.sendFile(__dirname + "/public/views/link.html")
+})
+
 app.get("/links", (request, response) => {
     repository.getAllLinks().then(links => {
         response.type("application/json");
